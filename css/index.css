@@ -1,0 +1,134 @@
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-image: url(https://i.pinimg.com/originals/ab/c2/81/abc28159e9820d25c1214c2f2b15dd95.gif);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-color: #272727;
+    color: rgb(255, 255, 255);
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    text-align: center;
+    width: 100%;
+    max-width: 400px;
+    padding: 40px;
+    background: rgba(0, 0, 0, 0.8);
+    border-radius: 10px;
+    box-shadow: 1px 1px 30px 8px rgb(93, 95, 240);
+}
+
+h1 {
+    display: inline-block;
+    padding: 8px;
+    border: 2px solid;
+    border-color: #6a0dad;
+    border-radius: 8px;
+    background-image: linear-gradient(blue, rgb(68, 0, 255), purple);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-color: #000000;
+    box-shadow: 1px 1px 10px 4px purple;
+    margin-bottom: 20px;
+    font-size: 2rem;
+    color: #fff;
+}
+
+label {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 1rem;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #000000;
+    border-radius: 5px;
+    background-color: #302d33;
+    color: white;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #6a0dad;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+button:hover {
+    background-color: #6a0dad;
+    box-shadow: 0px 0px 30px 3px purple;
+    transform: scale(1.05);
+    transition: all 0.3s ease;
+
+}
+
+p {
+    margin-top: 20px;
+}
+
+a {
+    color: #6a0dad;
+    text-decoration: none;
+}
+input:focus {
+outline: none; /* Remove o contorno padrão do navegador */
+border: 2px solid #b700ff; /* Muda a cor da borda */
+box-shadow: 0 0 10px rgba(146, 3, 241, 0.7); /* Adiciona uma sombra para destacar o campo */
+transform: scale(1.05); /* Aumenta o tamanho do campo ligeiramente */
+transition: all 0.3s ease; /* Adiciona uma animação suave para todos os efeitos */
+}
+
+.mensagem-sucesso {
+    outline: none;
+    color: rgb(255, 255, 255);
+    font-size: 1rem;
+    text-align: center;
+    margin-top: 20px;
+    font-weight: bold;
+    background-color: green;
+    box-shadow: 1px 1px 40px 1px green;
+    transition: all 0.5s ease-out;
+}
+
+.mensagem-login.sucesso {
+    color: #3cff00;
+}
+
+.mensagem-erro.erro {
+    color: red;
+}
+
+footer {
+    color: #2600ff;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-image: url(https://i.pinimg.com/originals/99/d1/f6/99d1f69ab51459b161c92be780abfe2a.gif);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-color: #1f1e1e;
+    text-align: center;
+    padding: 10px;
+    font-size: 14px;
+}
+
+img {
+    box-shadow: 1px 1px 10px 1px purple;
+    width: 70px;
+    border-radius: 40px;
+}

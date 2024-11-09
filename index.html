@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="css/index.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Login</h1>
+
+        <div id="login-form">
+            <label for="usuario">Usuário:</label>
+            <input type="text" id="usuario" placeholder="Digite seu nome de usuário">
+
+            <label for="senha">Senha:</label>
+            <input type="password" id="senha" placeholder="Digite sua senha">
+
+            <button id="login">Entrar</button>
+
+            <!-- Mensagem de login -->
+            <p id="mensagem-login" class="mensagem-login"></p>
+
+            <!-- Mensagem de erro no login -->
+            <p id="mensagem-erro" class="mensagem-erro"></p>
+
+            <p>Não tem uma conta? <a href="#" id="nao-tenho-conta">Cadastre-se</a></p>
+        </div>
+
+        <div id="cadastro-form" style="display: none;">
+            <label for="usuario-cadastro">Usuário:</label>
+            <input type="text" id="usuario-cadastro" placeholder="Escolha seu nome de usuário">
+
+            <label for="senha-cadastro">Senha:</label>
+            <input type="password" id="senha-cadastro" placeholder="Escolha sua senha">
+
+            <button id="cadastrar">Cadastrar</button>
+
+            <!-- Mensagem de sucesso no cadastro -->
+            <p id="mensagem-sucesso" class="mensagem-sucesso" style="display: none;">Cadastro realizado com sucesso!</p>
+
+            <p>Já tem uma conta? <a href="#" id="voltar-login">Faça login</a></p>
+        </div>
+    </div>
+
+    <!-- Rodapé com imagem e texto -->
+    <footer>
+        Feito por <strong>Bilu</strong>
+        <img src="imagens/fotinha.gif" alt="" width="50" height="50">
+    </footer>
+
+    <!-- Firebase SDK -->
+    <script type="module">
+        // Importando Firebase e suas funcionalidades
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-auth.js";
+        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-firestore.js";
+
+        // Sua configuração Firebase do Console
+        const firebaseConfig = {
+            apiKey: "AIzaSyCxgxte4-bcyhYC40XAt7PAOydkhYflgFg",
+            authDomain: "seilacara-cca3e.firebaseapp.com",
+            projectId: "seilacara-cca3e",
+            storageBucket: "seilacara-cca3e.firebasestorage.app",
+            messagingSenderId: "1048842149906",
+            appId: "1:1048842149906:web:48c99cf0a76e27aed978cb",
+            measurementId: "G-YWKQER0CZ8"
+        };
+
+        // Inicializando o Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app); // Inicializando a autenticação
+        const db = getFirestore(app); // Inicializando o Firestore
+
+        // Função para fazer login
+        document.getElementById('login').addEventListener('click', () => {
+            const usuario = document.getElementById('usuario').value;
+            const senha = document.getElementById('senha').value;
+
+            if (!usuario || !senha) {
+                alert('Por favor, preencha todos os campos!');
+                return;
+            }
+
+            const mensagemLogin = document.getElementById('mensagem-login');
+            const mensagemErro = document.getElementById('mensagem-erro');
+
+            // Limpa as mensagens anteriores
+            mensagemLogin.textContent = '';
+            mensagemErro.textContent = '';
+
+            // Tenta fazer o login com o Firebase Authentication
+            signInWithEmailAndPassword(auth, usuario, senha)
+                .then(() => {
+                    // Login bem-sucedido
+                    mensagemLogin.textContent = 'Login com sucesso!';
+                    mensagemLogin.classList.add('sucesso');
+                    mensagemLogin.classList.remove('erro');
+                    mensagemLogin.style.display = 'block';
+
+                    // Aguarda 3 segundos e redireciona
+                    setTimeout(() => {
+                        mensagemLogin.style.display = 'none';
+                        window.location.href = `inicial.html?nome=${encodeURIComponent(usuario)}`;
+                    }, 3000);
+                })
+                .catch((error) => {
+                    // Login falhou
+                    mensagemErro.textContent = 'Login ou senha inválidos ou conta não existente.';
+                    mensagemErro.classList.add('erro');
+                    mensagemErro.classList.remove('sucesso');
+                    mensagemErro.style.display = 'block';
+
+                    // Oculta a mensagem após 3 segundos
+                    setTimeout(() => {
+                        mensagemErro.style.display = 'none';
+                    }, 3000);
+                });
+        });
+
+        // Função para cadastrar
+        document.getElementById('cadastrar').addEventListener('click', () => {
+            const usuarioCadastro = document.getElementById('usuario-cadastro').value;
+            const senhaCadastro = document.getElementById('senha-cadastro').value;
+
+            if (usuarioCadastro && senhaCadastro) {
+                // Tenta criar um novo usuário com o Firebase Authentication
+                createUserWithEmailAndPassword(auth, usuarioCadastro, senhaCadastro)
+                    .then(() => {
+                        // Exibe mensagem de sucesso no cadastro
+                        const mensagemSucesso = document.getElementById('mensagem-sucesso');
+                        mensagemSucesso.style.display = 'block';
+
+                        // Aguarda 3 segundos antes de alternar para o formulário de login
+                        setTimeout(() => {
+                            mensagemSucesso.style.display = 'none'; // Oculta a mensagem
+                            toggleForm(); // Alterna para o formulário de login
+                        }, 3000);
+                    })
+                    .catch((error) => {
+                        // Erro ao criar o usuário
+                        alert('Erro: ' + error.message);
+                    });
+            } else {
+                alert('Por favor, preencha todos os campos para cadastrar.');
+            }
+        });
+
+        // Alterna entre os formulários
+        function toggleForm() {
+            const loginForm = document.getElementById('login-form');
+            const cadastroForm = document.getElementById('cadastro-form');
+
+            loginForm.style.display = loginForm.style.display === 'none' ? 'block' : 'none';
+            cadastroForm.style.display = cadastroForm.style.display === 'none' ? 'block' : 'none';
+        }
+
+        document.getElementById('nao-tenho-conta').addEventListener('click', (e) => {
+            e.preventDefault();
+            toggleForm();
+        });
+
+        document.getElementById('voltar-login').addEventListener('click', (e) => {
+            e.preventDefault();
+            toggleForm();
+        });
+    </script>
+</body>
+
+</html>

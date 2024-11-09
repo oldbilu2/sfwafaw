@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <link rel="stylesheet" href="css/pagina-criada.css">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfólio Criado</title>
+</head>
+<body>
+    <div>
+        <div>
+            <img id="foto-usuario" src="" width="70" height="70" alt="Foto do Usuário">
+            <h1 id="nome-portfolio">Nome do Usuário</h1>
+        </div>
+        <p id="descricao-portfolio">Descrição do portfólio</p>
+    </div>
+
+    <script>
+        // Função para pegar os parâmetros da URL
+        function getParams() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return {
+                nome: urlParams.get('nome'),
+                descricao: urlParams.get('descricao'),
+                banner: urlParams.get('banner'),
+                foto: urlParams.get('foto') // Novo parâmetro para a foto do usuário
+            };
+        }
+
+        // Pega os parâmetros da URL
+        const params = getParams();
+
+        // Atualiza o conteúdo da página
+        if (params.nome) {
+            document.getElementById('nome-portfolio').innerText = params.nome;
+        }
+        if (params.descricao) {
+            document.getElementById('descricao-portfolio').innerText = params.descricao;
+        }
+        if (params.banner) {
+            // Define o fundo da página com a URL do banner
+            document.body.style.backgroundImage = `url(${params.banner})`;
+        }
+        if (params.foto) {
+            // Define a imagem do usuário
+            document.getElementById('foto-usuario').src = params.foto;
+        } else {
+            // Imagem padrão caso a foto não seja enviada
+            document.getElementById('foto-usuario').src = 'https://via.placeholder.com/80';
+        }
+    </script>
+</body>
+</html>
